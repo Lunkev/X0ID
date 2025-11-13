@@ -139,7 +139,7 @@ function App() {
   const [showVideoPlayer, setShowVideoPlayer] = useState(false)
   const [showVideoConfirmation, setShowVideoConfirmation] = useState(false)
   const [videoConfirmed, setVideoConfirmed] = useState(false)
-  const [currentPage, setCurrentPage] = useState<'main' | 'logs' | 'terminal'>('main')
+  const [currentPage, setCurrentPage] = useState<'main' | 'logs' | 'terminal' | 'sekvens'>('main')
   const [terminalQuery, setTerminalQuery] = useState('')
   const [terminalResponse, setTerminalResponse] = useState('')
   const [isTerminalProcessing, setIsTerminalProcessing] = useState(false)
@@ -675,11 +675,11 @@ function App() {
               }
             }
             
-            // Skapa flytande ord
-            const word = forbiddenWords[Math.floor(Math.random() * forbiddenWords.length)]
-            const size = 20 + Math.random() * 28 // 20-48px
-            const floatDistance = 5 + Math.random() * 10 // 5-15px uppåt
-            const id = trailIdCounterRef.current++
+          // Skapa flytande ord
+          const word = forbiddenWords[Math.floor(Math.random() * forbiddenWords.length)]
+          const size = 20 + Math.random() * 28 // 20-48px
+          const floatDistance = 5 + Math.random() * 10 // 5-15px uppåt
+          const id = trailIdCounterRef.current++
 
             // Rensa ord efter 1.5 sekunder
             const removeTimeout = window.setTimeout(() => {
@@ -689,12 +689,12 @@ function App() {
             floatingWordsTimeoutsRef.current.set(id, removeTimeout)
 
             return [...prev, {
-              id,
-              x: e.clientX,
-              y: e.clientY,
-              word,
-              size,
-              floatDistance
+            id,
+            x: e.clientX,
+            y: e.clientY,
+            word,
+            size,
+            floatDistance
             }]
           })
         } else {
@@ -714,12 +714,12 @@ function App() {
               return prev.slice(prev.length - MAX_TRAIL_SYMBOLS + 1)
             }
             
-            // Skapa normal trail-symbol
-            const symbol = crypticSymbols[Math.floor(Math.random() * crypticSymbols.length)]
-            const size = 12 + Math.random() * 8 // 12-20px
-            const rotation = -8 + Math.random() * 16 // -8° till +8°
-            const fadeDuration = 300 + Math.random() * 400 // 300-700ms
-            const id = trailIdCounterRef.current++
+          // Skapa normal trail-symbol
+          const symbol = crypticSymbols[Math.floor(Math.random() * crypticSymbols.length)]
+          const size = 12 + Math.random() * 8 // 12-20px
+          const rotation = -8 + Math.random() * 16 // -8° till +8°
+          const fadeDuration = 300 + Math.random() * 400 // 300-700ms
+          const id = trailIdCounterRef.current++
 
             // Rensa symbol efter fadeDuration
             const removeTimeout = window.setTimeout(() => {
@@ -729,13 +729,13 @@ function App() {
             trailSymbolsTimeoutsRef.current.set(id, removeTimeout)
 
             return [...prev, {
-              id,
-              x: e.clientX,
-              y: e.clientY,
-              symbol,
-              size,
-              rotation,
-              fadeDuration
+            id,
+            x: e.clientX,
+            y: e.clientY,
+            symbol,
+            size,
+            rotation,
+            fadeDuration
             }]
           })
         }
@@ -805,36 +805,36 @@ function App() {
         
         if (fragmentCount <= 0) return prev // Inga fler fragment om vi redan har max
         
-        const newFragments: Array<{id: number, x: number, y: number, symbol: string, size: number, rotation: number, offsetX: number, offsetY: number, fadeDuration: number}> = []
+      const newFragments: Array<{id: number, x: number, y: number, symbol: string, size: number, rotation: number, offsetX: number, offsetY: number, fadeDuration: number}> = []
 
-        for (let i = 0; i < fragmentCount; i++) {
-          const symbol = crypticSymbols[Math.floor(Math.random() * crypticSymbols.length)]
-          const size = 10 + Math.random() * 12 // 10-22px
-          const rotation = -15 + Math.random() * 30 // -15° till +15°
-          const angle = (Math.PI * 2 * i) / fragmentCount + Math.random() * 0.5 // Sprid ut i cirkel + lite variation
-          const distance = 20 + Math.random() * 40 // 20-60px från klick-positionen
-          const offsetX = Math.cos(angle) * distance
-          const offsetY = Math.sin(angle) * distance
-          const fadeDuration = 400 + Math.random() * 600 // 400-1000ms
-          const id = trailIdCounterRef.current++
+      for (let i = 0; i < fragmentCount; i++) {
+        const symbol = crypticSymbols[Math.floor(Math.random() * crypticSymbols.length)]
+        const size = 10 + Math.random() * 12 // 10-22px
+        const rotation = -15 + Math.random() * 30 // -15° till +15°
+        const angle = (Math.PI * 2 * i) / fragmentCount + Math.random() * 0.5 // Sprid ut i cirkel + lite variation
+        const distance = 20 + Math.random() * 40 // 20-60px från klick-positionen
+        const offsetX = Math.cos(angle) * distance
+        const offsetY = Math.sin(angle) * distance
+        const fadeDuration = 400 + Math.random() * 600 // 400-1000ms
+        const id = trailIdCounterRef.current++
 
-          newFragments.push({
-            id,
-            x: e.clientX,
-            y: e.clientY,
-            symbol,
-            size,
-            rotation,
-            offsetX,
-            offsetY,
-            fadeDuration
-          })
+        newFragments.push({
+          id,
+          x: e.clientX,
+          y: e.clientY,
+          symbol,
+          size,
+          rotation,
+          offsetX,
+          offsetY,
+          fadeDuration
+        })
 
-          // Rensa fragment efter fadeDuration
-          setTimeout(() => {
-            setClickFragments(prev => prev.filter(f => f.id !== id))
-          }, fadeDuration)
-        }
+        // Rensa fragment efter fadeDuration
+        setTimeout(() => {
+          setClickFragments(prev => prev.filter(f => f.id !== id))
+        }, fadeDuration)
+      }
 
         // Ta bort äldsta fragment om vi når max
         const toKeep = MAX_FRAGMENTS - fragmentCount
@@ -1287,49 +1287,49 @@ function App() {
           return prev // Skapa inte fler om vi redan har max
         }
         
-        // Välj slumpmässig sekvens och text
-        const sequences = [
-          floatingMessagesSequence1,
-          floatingMessagesSequence2,
-          floatingMessagesSequence3,
-          floatingMessagesSequence4,
-          floatingMessagesSequence5
-        ]
-        const sequenceIndex = Math.floor(Math.random() * sequences.length)
-        const sequence = sequences[sequenceIndex]
-        const textIndex = Math.floor(Math.random() * sequence.length)
-        const text = sequence[textIndex]
-        
-        // Dela upp texten i ord
-        const words = text.split(/(\s+)/)
-        const wordIndices = words
-          .map((word, idx) => ({ word, idx }))
-          .filter(({ word }) => word.trim().length > 0 && !word.match(/^[⠽⠕⠥\s]+$/)) // Filtrera bort tomma ord och braille
-        
+      // Välj slumpmässig sekvens och text
+      const sequences = [
+        floatingMessagesSequence1,
+        floatingMessagesSequence2,
+        floatingMessagesSequence3,
+        floatingMessagesSequence4,
+        floatingMessagesSequence5
+      ]
+      const sequenceIndex = Math.floor(Math.random() * sequences.length)
+      const sequence = sequences[sequenceIndex]
+      const textIndex = Math.floor(Math.random() * sequence.length)
+      const text = sequence[textIndex]
+      
+      // Dela upp texten i ord
+      const words = text.split(/(\s+)/)
+      const wordIndices = words
+        .map((word, idx) => ({ word, idx }))
+        .filter(({ word }) => word.trim().length > 0 && !word.match(/^[⠽⠕⠥\s]+$/)) // Filtrera bort tomma ord och braille
+      
         if (wordIndices.length === 0) return prev
-        
-        const randomWordEntry = wordIndices[Math.floor(Math.random() * wordIndices.length)]
-        const originalWord = randomWordEntry.word.trim()
-        
-        // Välj slumpmässigt sataniskt ord
-        const corruptedWord = satanicWords[Math.floor(Math.random() * satanicWords.length)]
-        
-        // Räkna ord-indexet (ignorera whitespace och braille)
-        const allWords = text.split(/\s+/).filter(w => w.trim().length > 0 && !w.match(/^[⠽⠕⠥]+$/))
-        const wordPosition = allWords.findIndex(w => w === originalWord)
-        
+      
+      const randomWordEntry = wordIndices[Math.floor(Math.random() * wordIndices.length)]
+      const originalWord = randomWordEntry.word.trim()
+      
+      // Välj slumpmässigt sataniskt ord
+      const corruptedWord = satanicWords[Math.floor(Math.random() * satanicWords.length)]
+      
+      // Räkna ord-indexet (ignorera whitespace och braille)
+      const allWords = text.split(/\s+/).filter(w => w.trim().length > 0 && !w.match(/^[⠽⠕⠥]+$/))
+      const wordPosition = allWords.findIndex(w => w === originalWord)
+      
         if (wordPosition === -1) return prev // Hittade inte ordet, hoppa över
-        
-        // Skapa unik nyckel för både main och logs
-        const mainKey = `main-seq${sequenceIndex + 1}-${textIndex}-word${wordPosition}`
-        const logsKey = `logs-seq${sequenceIndex + 1}-${textIndex}-word${wordPosition}`
+      
+      // Skapa unik nyckel för både main och logs
+      const mainKey = `main-seq${sequenceIndex + 1}-${textIndex}-word${wordPosition}`
+      const logsKey = `logs-seq${sequenceIndex + 1}-${textIndex}-word${wordPosition}`
         
         // Kontrollera om detta ord redan är korrupt
         if (prev.has(mainKey) || prev.has(logsKey)) {
           return prev // Redan korrupt, hoppa över
         }
-        
-        // Sätt korrupt state för både main och logs
+      
+      // Sätt korrupt state för både main och logs
         const newMap = new Map(prev)
         newMap.set(mainKey, {
           originalWord,
@@ -1341,18 +1341,18 @@ function App() {
           corruptedWord,
           wordIndex: wordPosition
         })
-        
+      
         // Återställ efter 3-5 sekunder (längre synlighet)
         const restoreDelay = 3000 + Math.random() * 2000
         const restoreTimeout = window.setTimeout(() => {
-          setCorruptedWords(prev => {
-            const newMap = new Map(prev)
-            newMap.delete(mainKey)
-            newMap.delete(logsKey)
-            return newMap
-          })
+        setCorruptedWords(prev => {
+          const newMap = new Map(prev)
+          newMap.delete(mainKey)
+          newMap.delete(logsKey)
+          return newMap
+        })
           corruptedWordsTimeoutsRef.current = corruptedWordsTimeoutsRef.current.filter(t => t !== restoreTimeout)
-        }, restoreDelay)
+      }, restoreDelay)
         corruptedWordsTimeoutsRef.current.push(restoreTimeout)
         
         return newMap
@@ -1394,16 +1394,16 @@ function App() {
           return prev // Skapa inte fler om vi redan har max
         }
         
-        // Slumpmässig position i bakgrunden (undvik centrum där ögat är)
-        const x = Math.random() * (window.innerWidth - 200) + 100 // 100px från kanterna
-        const y = Math.random() * (window.innerHeight - 200) + 100
-        const id = typingIndicatorIdCounterRef.current++
+      // Slumpmässig position i bakgrunden (undvik centrum där ögat är)
+      const x = Math.random() * (window.innerWidth - 200) + 100 // 100px från kanterna
+      const y = Math.random() * (window.innerHeight - 200) + 100
+      const id = typingIndicatorIdCounterRef.current++
 
-        // Ta bort efter 3 sekunder (1 sekund pulsering + fade out)
-        const removeTimeout = window.setTimeout(() => {
-          setTypingIndicators(prev => prev.filter(indicator => indicator.id !== id))
-        }, 3000)
-        typingIndicatorTimeoutsRef.current.push(removeTimeout)
+      // Ta bort efter 3 sekunder (1 sekund pulsering + fade out)
+      const removeTimeout = window.setTimeout(() => {
+        setTypingIndicators(prev => prev.filter(indicator => indicator.id !== id))
+      }, 3000)
+      typingIndicatorTimeoutsRef.current.push(removeTimeout)
 
         return [...prev, { id, x, y }]
       })
@@ -2284,17 +2284,17 @@ function App() {
         </div>
       )}
       {!isPasswordBlood && (
-        <div className="navigation-links">
-          <a 
-            href="#" 
-            className="nav-link"
-            onClick={(e) => {
-              e.preventDefault()
-              setCurrentPage('logs')
-            }}
-          >
-            logs.dev
-          </a>
+      <div className="navigation-links">
+        <a 
+          href="#" 
+          className="nav-link"
+          onClick={(e) => {
+            e.preventDefault()
+            setCurrentPage('logs')
+          }}
+        >
+          logs.dev
+        </a>
           <a 
             href="#" 
             className="nav-link"
