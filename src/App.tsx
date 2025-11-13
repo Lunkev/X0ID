@@ -113,7 +113,7 @@ function App() {
   const [isTextDistorted, setIsTextDistorted] = useState(false)
   const [isShowingDeath, setIsShowingDeath] = useState(false)
   const [isEasterEggActive, setIsEasterEggActive] = useState(false)
-  const [easterEggMessage, setEasterEggMessage] = useState('')
+  const [_easterEggMessage, setEasterEggMessage] = useState('')
   const [hasEasterEggTriggered, setHasEasterEggTriggered] = useState(false)
   const [trailSymbols, setTrailSymbols] = useState<Array<{id: number, x: number, y: number, symbol: string, size: number, rotation: number, fadeDuration: number}>>([])
   const [floatingWords, setFloatingWords] = useState<Array<{id: number, x: number, y: number, word: string, size: number, floatDistance: number}>>([])
@@ -264,6 +264,9 @@ function App() {
         setTimeout(() => setTerminalWarning(''), 3000)
       }
     }
+
+    // Kontrollera trigger words när query ändras
+    checkTriggerWords()
 
     // Typing indicator när man skriver
     if (terminalQuery.length > 0) {
@@ -481,7 +484,6 @@ function App() {
                 // Steg 4: Glitch-effekt - flickrar mellan GOD HAS LEFT och X0ID super snabbt
                 let glitchCount = 0
                 const maxGlitches = 50 // Fler glitch-frames för längre flickering
-                let showEasterEgg = true // Börja med easter egg-texten
                 let consecutiveX0ID = 0 // Räkna hur många gånger X0ID visas i rad
                 const requiredConsecutive = 5 // Antal gånger X0ID måste visas i rad för att avsluta
                 
@@ -498,12 +500,10 @@ function App() {
                     setIsEasterEggActive(false)
                     setIsTextGlitching(true)
                     consecutiveX0ID++ // Öka räknaren när X0ID visas
-                    showEasterEgg = false
                   } else {
                     setDisplayedText(easterEggAsciiText)
                     setIsEasterEggActive(true)
                     consecutiveX0ID = 0 // Återställ räknaren när easter egg visas
-                    showEasterEgg = true
                   }
                   
                   glitchCount++
@@ -1555,7 +1555,7 @@ function App() {
       }
     }
 
-    const createFloatingText = (text: string, id: number, isExtraLarge: boolean, sequenceNumber: number, existingText: typeof floatingTexts[0]) => {
+    const createFloatingText = (text: string, _id: number, isExtraLarge: boolean, sequenceNumber: number, existingText: typeof floatingTexts[0]) => {
       // Generera nya positioner när texten byts ut
       const newX = Math.random() * window.innerWidth
       const newY = Math.random() * window.innerHeight
@@ -1724,7 +1724,7 @@ function App() {
         newJerkOffsets.set(text.id, offsets)
         
         // Skapa trail-texter på varje ryck-position
-        offsets.forEach((offset, index) => {
+        offsets.forEach((offset) => {
           const trailId = jerkTrailIdCounterRef.current++
           newTrails.push({
             id: trailId,
