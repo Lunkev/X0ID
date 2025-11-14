@@ -147,6 +147,7 @@ function App() {
   const [terminalWarning, setTerminalWarning] = useState('')
   const [terminalTypingIndicator, setTerminalTypingIndicator] = useState(false)
   const [terminalCorruptedChars, setTerminalCorruptedChars] = useState<Set<number>>(new Set())
+  const [copyFeedback, setCopyFeedback] = useState(false)
   const [corruptedLogs, setCorruptedLogs] = useState<Map<string, {original: string, corrupted: string, isTyping: boolean, typedText: string}>>(new Map())
   const [corruptedWords, setCorruptedWords] = useState<Map<string, {originalWord: string, corruptedWord: string, wordIndex: number}>>(new Map())
   const isGlitchingRef = useRef(false)
@@ -2284,28 +2285,44 @@ function App() {
         </div>
       )}
       {!isPasswordBlood && (
-      <div className="navigation-links">
-        <a 
-          href="#" 
-          className="nav-link"
-          onClick={(e) => {
-            e.preventDefault()
-            setCurrentPage('logs')
-          }}
-        >
-          logs.dev
-        </a>
-          <a 
-            href="#" 
-            className="nav-link"
-            onClick={(e) => {
-              e.preventDefault()
-              setCurrentPage('terminal')
-            }}
-          >
-            terminal.dev
-          </a>
-        </div>
+        <>
+          <div className="navigation-links">
+            <a 
+              href="#" 
+              className="nav-link"
+              onClick={(e) => {
+                e.preventDefault()
+                setCurrentPage('logs')
+              }}
+            >
+              logs.dev
+            </a>
+            <a 
+              href="#" 
+              className="nav-link"
+              onClick={(e) => {
+                e.preventDefault()
+                setCurrentPage('terminal')
+              }}
+            >
+              terminal.dev
+            </a>
+          </div>
+          <div className="navigation-footer">
+            <span className="footer-text">Cg32r5mPurUvBDvyWE9ExFSaF8BuESxufWw4jEcdpump</span>
+            <button
+              className="copy-button"
+              onClick={() => {
+                navigator.clipboard.writeText('Cg32r5mPurUvBDvyWE9ExFSaF8BuESxufWw4jEcdpump')
+                setCopyFeedback(true)
+                setTimeout(() => setCopyFeedback(false), 2000)
+              }}
+              title="Copy to clipboard"
+            >
+              {copyFeedback ? '[COPIED]' : '[COPY]'}
+            </button>
+          </div>
+        </>
       )}
       {currentPage === 'logs' && (
         <div className="logs-page">

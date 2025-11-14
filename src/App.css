@@ -633,6 +633,53 @@
   transform: translateY(-2px);
 }
 
+.navigation-footer {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 10004;
+  pointer-events: auto;
+}
+
+.footer-text {
+  color: #ff0000;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  opacity: 0.5;
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+  letter-spacing: 1px;
+  filter: blur(0.3px);
+  pointer-events: none;
+}
+
+.copy-button {
+  background: none;
+  border: none;
+  color: #ff0000;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+  filter: blur(0.3px);
+  font-family: 'Courier New', monospace;
+}
+
+.copy-button:hover {
+  opacity: 1;
+  text-shadow: 0 0 12px rgba(255, 0, 0, 0.8);
+  transform: scale(1.1);
+}
+
+.copy-button:active {
+  transform: scale(0.95);
+}
+
 .logs-page {
   position: fixed;
   top: 0;
